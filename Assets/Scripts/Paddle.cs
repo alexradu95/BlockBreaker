@@ -21,7 +21,18 @@ public class Paddle : MonoBehaviour
     {
         float mouseXValue = Input.mousePosition.x / Screen.width * screenWidthInUnits; //ne da valori intre 0 si 1
         Vector2 paddlePosition = new Vector2(mouseXValue, transform.position.y);
-        paddlePosition.x = Mathf.Clamp(mouseXValue, minX, maxX); //Mathf.Clamp limiteaza paddlePositionX sa fie intre minX si maxX
+        paddlePosition.x = Mathf.Clamp(GetBallXPos(), minX, maxX); //Mathf.Clamp limiteaza paddlePositionX sa fie intre minX si maxX
         transform.position = paddlePosition;
+    }
+
+    private float GetBallXPos()
+    {
+        if (FindObjectOfType<GameStatus>().IsAutoplayEnabled())
+        {
+            return FindObjectOfType<Ball>().transform.position.x;
+        } else
+        {
+            return Input.mousePosition.x / Screen.width * screenWidthInUnits;
+        }
     }
 }
